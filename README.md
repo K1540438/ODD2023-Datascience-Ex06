@@ -9,10 +9,7 @@ Feature Transformation is a technique by which we can boost our model performanc
 - Step3: Apply Feature Transformation techniques to all the features of the data set.
 - Step4: Print the transformed features.
 ### Program:
-```
-Developed By:Jaswanth.P
-Register No: 212220040115
-```
+
 - Importing libraries and reading csv file:
   ```Python
   import numpy as np
