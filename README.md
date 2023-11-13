@@ -1,123 +1,184 @@
-# EX-06 FEATURE TRANSFORMATION
-### Aim:
+# Ex 6 Feature Transformation
 
-To read the given data and perform Feature Transformation process and save the data to a file.
-### Explanation:
+# AIM
+To read the given data and reduce the skewness to form a normal distribution.
 
-Feature Transformation is a technique by which we can boost our model performance. Feature transformation is a mathematical transformation in which we apply a mathematical formula to a particular column(feature) and transform the values which are useful for our further analysis.
-### Algorithm:
-
-- Step1: Read the given Data.
-- Step2: Clean the Data Set using Data Cleaning Process.
-- Step3: Apply Feature Transformation techniques to all the features of the data set.
-- Step4: Print the transformed features.
-### Program:
-
-
-- Importing libraries and reading csv file:
-  ```Python
-  import numpy as np
-  import pandas as pd
-  import matplotlib.pyplot as plt
-  import statsmodels.api as sm
-  import scipy.stats as stats
-  from sklearn.preprocessing import QuantileTransformer
-  from sklearn.preprocessing import PowerTransformer
-  df=pd.read_csv("Data_to_Transform.csv")
-  ```
-- Basic Information:
-  ```Python
-  df.head()
-  df.info()
-  df
-  ```
-  ![1](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/8174e1f4-d724-436b-8f33-0fa20413cddc)
-  ![2](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/a0687a96-21ff-44e2-a19a-a2aaf7d6753d)
-  ![3](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/132a6dd0-f447-4907-b2b9-7f342e3a8ca4)
-
-- Before Transformation:
-  ```Python
-  sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
-  plt.title("Highly Positive Skew")
-  plt.show()
-
-  sm.qqplot(df['Highly Negative Skew'],fit=True,line='45')
-  plt.title("Highly Negative Skew")
-  plt.show()
-
-  sm.qqplot(df['Moderate Positive Skew'],fit=True,line='45')
-  plt.title("Moderate Positive Skew")
-  plt.show()
-
-  sm.qqplot(df['Moderate Negative Skew'],fit=True,line='45')
-  plt.title("Moderate Negative Skew")
-  plt.show()
-  ```
-  ![4](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/eac11f2a-51cd-4eb0-a348-757a01b48102)
-  ![5](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/63728e2c-5c24-49f5-9865-014c1335304d)
-  ![6](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/53cdbe49-62be-4158-96f8-cf7d3f1f94ea)
-  ![7](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/1f2338b7-8976-4a38-a2fe-a76f99b4ff0b)
-
-- Log Transformation:
-  ```Python
-  df['Highly Positive Skew'] = np.log(df['Highly Positive Skew'])
-  sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
-  plt.title("Highly Positive Skew")
-  plt.show()
-  
-  df['Moderate Positive Skew'] = np.log(df['Moderate Positive Skew'])
-  sm.qqplot(df['Moderate Positive Skew'],fit=True,line='45')
-  plt.title("Moderate Positive Skew")
-  plt.show()
-  ```
-  ![8](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/567a14c2-975d-4022-ae7e-48e9643d67b8)
-  ![9](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/91cb3661-adb6-4726-901a-9453db9ec65c)
-
-- Reciprocal Transformation:
-  ```Python
-  df['Highly Positive Skew'] = 1/df['Highly Positive Skew']
-  sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
-  plt.title("Highly Positive Skew")
-  plt.show()
-  ```
- ![10](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/5e40b4fc-cd70-435b-ab0f-55a6df660225)
-
-- SquareRoot Transformation:
-  ```Python
-  df['Highly Positive Skew'] = df['Highly Positive Skew']**(1/1.2)
-  sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
-  plt.title("Highly Positive Skew")
-  plt.show()
-  ```
-![11](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/9adbe3af-b0b8-41e7-880f-a29fb963951f)
-
-- Power Transformation:
-  ```Python
-  df['Moderate Positive Skew_1'], parameters=stats.yeojohnson(df['Moderate Positive Skew'])
-  sm.qqplot(df['Moderate Positive Skew_1'],fit=True,line='45')
-  plt.title("Moderate Positive Skew")
-  plt.show()
-
-  transformer=PowerTransformer("yeo-johnson")
-  df['ModerateNegativeSkew_2']=pd.DataFrame(transformer.fit_transform(df[['Moderate Negative Skew']]))
-  sm.qqplot(df['ModerateNegativeSkew_2'],fit=True,line='45')
-  plt.title("Moderate Negative Skew")
-  plt.show()
-  ```
-  ![12](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/1fc1a6f8-9403-496d-bdb4-6ec5e24d250e)
-![13](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/fdde097f-af98-4bfa-bcc7-1f33b5672a6e)
+# EXPLANATION
+Feature Transformation is a technique by which we can boost our model performance. Feature transformation is a mathematical transformation in which we apply a mathematical formula to a particular column(feature) and transform the values which are useful for our further analysis.<br/>
+There are three types of transformation.
+* Function Tranformation
+  * Log Tranformation
+  * Reciprocal Transformation
+  * Square root Transformation
+* Power Tranformation
+  * Box Cox Tansformation
+  * Yeo-Johnson Transformation
+* Quantile Transformation
 
 
-  
-- Quantile Transformation:
-  ```Python
-  qt = QuantileTransformer(output_distribution = 'normal')
-  df['ModerateNegativeSkew_2'] = pd.DataFrame(qt.fit_transform(df[['Moderate Negative Skew']]))
-  sm.qqplot(df['ModerateNegativeSkew_2'],fit=True,line='45')
-  plt.title("Moderate  Negative Skew")
-  plt.show()
-  ```
-![14](https://github.com/Aakash0407/ODD2023-Datascience-Ex06/assets/118799103/00458c10-dacb-4fed-9f0f-34a411f7977d)
+# ALGORITHM
+### Step 1
+Read the given data.
+### Step 2
+Perform Q-Q plot to reveal the skewness in a feature.
+### Step 3
+Apply all possible feature transformation technique.
+### Step 4
+Determine the best technique.
+### Step 5
+Using that technique replace the transformed feature to the data
 
-### Result:  
-Thus feature transformation is done for the given dataset.
+# CODE
+```python
+# import necessary modules and functions
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+import scipy.stats as stats
+import numpy as np
+from sklearn.preprocessing import QuantileTransformer,PowerTransformer
+
+# reading the file
+df=pd.read_csv('Data_to_Transform.csv')
+df
+
+# highly positive skewed column
+sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
+plt.show()
+
+# feature transformation for highly positive skewed column
+# log transformation
+df1=np.log(df['Highly Positive Skew'])
+sm.qqplot(df1,fit=True,line='45')
+plt.title('Log Transformation')
+plt.show()
+
+# reciprocal transformation
+df2=1/df['Highly Positive Skew']
+sm.qqplot(df2,fit=True,line='45')
+plt.title('Reciprocal Transformation')
+plt.show()
+
+# square root transformation
+df3=np.sqrt(df['Highly Positive Skew'])
+sm.qqplot(df3,fit=True,line='45')
+plt.title('Square Root Transformation')
+plt.show()
+
+# yeo-johnson transformation
+tf=PowerTransformer("yeo-johnson")
+df4=tf.fit_transform(df[['Highly Positive Skew']])
+sm.qqplot(df4,fit=True,line='45')
+plt.title('Yeo-Johnson Transformation')
+plt.show()
+
+# moderate positive skewed column
+sm.qqplot(df['Moderate Positive Skew'],fit=True,line='45')
+plt.show()
+
+# feature transformation for moderate positive skewed column
+# log transformation
+df1=np.log(df['Moderate Positive Skew'])
+sm.qqplot(df1,fit=True,line='45')
+plt.title('Log Transformation')
+plt.show()
+
+# reciprocal transformation
+df2=1/df['Moderate Positive Skew']
+sm.qqplot(df2,fit=True,line='45')
+plt.title('Reciprocal Transformation')
+plt.show()
+
+# square root transformation
+df3=np.sqrt(df['Moderate Positive Skew'])
+sm.qqplot(df3,fit=True,line='45')
+plt.title('Square Root Transformation')
+plt.show()
+
+# yeo-johnson transformation
+tf=PowerTransformer("yeo-johnson")
+df4=tf.fit_transform(df[['Moderate Positive Skew']])
+sm.qqplot(df4,fit=True,line='45')
+plt.title('Yeo-Johnson Transformation')
+plt.show()
+
+# moderate negative skewed column
+sm.qqplot(df['Moderate Negative Skew'],fit=True,line='45')
+plt.show()
+
+# feature transformation for moderate negative skewed column
+# yeo johnson tranformation
+tf3=PowerTransformer('yeo-johnson')
+df11=tf3.fit_transform(df[['Moderate Negative Skew']])
+sm.qqplot(df11,line='45')
+plt.title('Yeo-Johnson for Moderate Negative Skew Data')
+plt.show()
+
+# quantile transformation
+qt1=QuantileTransformer(output_distribution='normal')
+df12=qt1.fit_transform(df[['Moderate Negative Skew']])
+sm.qqplot(df12,line='45')
+plt.title('Quantile for Moderate Negative Skew Data')
+plt.show()
+
+# higly negative skewed column
+sm.qqplot(df['Highly Negative Skew'],fit=True,line='45')
+plt.show()
+
+# feature transformation for higly negative skewed column
+# yeo johnson tranformation
+tf4=PowerTransformer('yeo-johnson')
+df13=tf4.fit_transform(df[['Highly Negative Skew']])
+sm.qqplot(df13,line='45')
+plt.title('Yeo-Johnson for Highly Negative Skew Data')
+plt.show()
+
+# quantile transformation
+qt2=QuantileTransformer(output_distribution='normal')
+df14=qt2.fit_transform(df[['Highly Negative Skew']])
+sm.qqplot(df14,line='45')
+plt.title('Quantile for Highly Negative Skew Data')
+plt.show()
+```
+
+# OUTPUT
+### Highly positive skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/9452e339-d31f-4e39-a3e4-5f5cc6a00d61)
+
+### Feature transformation for highly positive skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/5fa372d9-b355-4720-a233-a7d24286c9e2)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/24b1599b-5f5e-473b-9d50-82ba3490ae63)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/24004813-0645-4c7a-9534-1cd3ea8f0977)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/0e223100-ceea-4364-a896-22399c39ded8)
+
+### Moderate positive skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/7449beb2-9903-4658-b760-4a56744c833c)
+
+### Feature transformation for moderate positive skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/43b28061-6621-486c-aaa6-deb1c4aa08a3)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/dd73e278-8d7d-43c7-b6f5-e74d49d1759b)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/05b7d5f9-b05a-4795-9f2a-003a0bdc22f5)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/f2cecf2f-66b4-45a5-8054-a40dc26e1c2f)
+
+### Moderate negative skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/5354ba83-031a-4de9-991b-897d13741517)
+
+### Feature transformation for moderate negative skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/608634cb-7720-47eb-9e48-902eac3d2b28)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/af32fae6-3d2e-4a7e-9450-1d3fd4302487)
+
+### Highly negative skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/8c8d0fa9-0520-4d88-89b9-24160c2b9e4e)
+
+### Feature transformation for highly negative skew column
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/9f6e89b9-ce84-48e2-8536-76b6e3fc7581)
+![download](https://github.com/yasin-sharif-SEC/ODD2023-Datascience-Ex06/assets/142985837/d5fb9534-8c6e-4f10-a707-30a34b9d2425)
+
+# RESULT
+Thus, the given data is read and the skewness is reduced.
+
+
+
+
+
+
